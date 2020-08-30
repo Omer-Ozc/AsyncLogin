@@ -6,15 +6,61 @@ import { AsyncStorage } from 'react-native';
 export default class SignUpPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.state ={
             name: '',
             password : '',
         };
     }
 
+    setItemData = async (acc) => {
+        console.log(acc.name)
+
+        try {
+          await AsyncStorage.setItem(
+            'Accounts',
+            JSON.stringify(acc)
+            
+          );
+        console.log('yazdıdrd')
+
+        } catch (error) {
+          alert(error)
+        }
+      };
+
+      componentDidMount(){
+          this.getItemData()
+      }
+
+
+      getItemData = async () => {
+        console.log('calisti')
+      try {
+        const Accaount = await AsyncStorage.getItem('Accounts');
+        if (Accaount !== null) {
+
+            const Accm = JSON.parse(Accaount)
+
+          this.setState({name:Accm.name})
+          this.setState({password:Accm.password})
+        }
+      } catch (error) {
+        alert(error)
+      }
+    };
+      
+
+
     render() {
+
+       
         return (
             <View style={styles.container}>
+
+                
+
+        <Text>{this.state.name}</Text>
+
                 <TextInput style={styles.textInputStyle}
                     placeholder="Enter Your ID"
                     onChangeText={(text) => this.setState({ name: text })}
@@ -26,11 +72,16 @@ export default class SignUpPage extends Component {
                     onChangeText={(text) => this.setState({ password: text })}
                     value={this.state.password}
                 />
-                
+
                 <Button style={styles.buttonStlye}
                     title="Sign Up"
                     color='red'
-                    onPress={() => console.log('name = ', this.state.name, 'passowrd = ', this.state.password)}
+                    onPress={() => this.setItemData(this.state)}
+                />
+
+                <Button
+                title = "Bas"
+                onPress={() => this.getItemData()}
                 />
             </View>
         );
