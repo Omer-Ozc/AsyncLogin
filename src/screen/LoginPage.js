@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { AsyncStorage } from 'react-native';
+
 
 export default class LoginPage extends Component {
     constructor(props) {
